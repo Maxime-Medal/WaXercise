@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WaXercise.Data;
 
@@ -11,9 +12,11 @@ using WaXercise.Data;
 namespace WaXercise.Migrations
 {
     [DbContext(typeof(WaXerciseContext))]
-    partial class WaXerciseContextModelSnapshot : ModelSnapshot
+    [Migration("20231115132830_updateCompagnies")]
+    partial class updateCompagnies
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,7 @@ namespace WaXercise.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PeopleId")
+                    b.Property<int?>("PeopleId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
@@ -110,9 +113,7 @@ namespace WaXercise.Migrations
                 {
                     b.HasOne("WaXercise.Models.People", null)
                         .WithMany("Compagnies")
-                        .HasForeignKey("PeopleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PeopleId");
                 });
 
             modelBuilder.Entity("WaXercise.Models.JobPeriod", b =>
@@ -122,7 +123,7 @@ namespace WaXercise.Migrations
                         .HasForeignKey("CompagnyId");
 
                     b.HasOne("WaXercise.Models.People", "People")
-                        .WithMany()
+                        .WithMany("JobsPeriods")
                         .HasForeignKey("PeopleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -135,6 +136,8 @@ namespace WaXercise.Migrations
             modelBuilder.Entity("WaXercise.Models.People", b =>
                 {
                     b.Navigation("Compagnies");
+
+                    b.Navigation("JobsPeriods");
                 });
 #pragma warning restore 612, 618
         }

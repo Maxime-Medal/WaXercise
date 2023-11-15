@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using WaXercise.Data;
 using WaXercise.Services;
 using WaXercise.Services.Interfaces;
@@ -9,13 +10,6 @@ var allowSpecificOrigins = "allowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<WaXerciseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("WaXerciseContext") ?? throw new InvalidOperationException("Connection string 'WaXerciseContext' not found.")));
-
-// TODO ajout du context de base de données
-//builder.Services.AddDbContext<BoilerPlateContext>(options =>
-
-//// TODO Choisis ton type de BDD
-//options.UseSqlServer(builder.Configuration.GetConnectionString("BoilerPlateContext") ?? throw new InvalidOperationException("Connection string 'BoilerPlateContext' not found.")));
-////options.UseInMemoryDatabase("BoilerPlateContext"));
 
 //Ajout des services de base
 builder.Services.AddCors(options =>
@@ -31,10 +25,14 @@ builder.Services.AddCors(options =>
         });
 });
 
-
 // Add services to the container.
-
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+        .AddNewtonsoftJson(options =>
+        {
+            //options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        });
+;
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -42,15 +40,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPeopleService, PeopleService>();
 
 var app = builder.Build();
-
-// TODO pour le seeding
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    //SeedData.Initialize(services);
-}
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

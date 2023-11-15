@@ -12,35 +12,35 @@ namespace WaXercise.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WorksController : ControllerBase
+    public class CompagnyController : ControllerBase
     {
         private readonly WaXerciseContext _context;
 
-        public WorksController(WaXerciseContext context)
+        public CompagnyController(WaXerciseContext context)
         {
             _context = context;
         }
 
         // GET: api/Works
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Work>>> GetWork()
+        public async Task<ActionResult<IEnumerable<Compagny>>> GetWork()
         {
-          if (_context.Work == null)
+          if (_context.Compagny == null)
           {
               return NotFound();
           }
-            return await _context.Work.ToListAsync();
+            return await _context.Compagny.ToListAsync();
         }
 
         // GET: api/Works/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Work>> GetWork(int id)
+        public async Task<ActionResult<Compagny>> GetWork(int id)
         {
-          if (_context.Work == null)
+          if (_context.Compagny == null)
           {
               return NotFound();
           }
-            var work = await _context.Work.FindAsync(id);
+            var work = await _context.Compagny.FindAsync(id);
 
             if (work == null)
             {
@@ -53,14 +53,14 @@ namespace WaXercise.Controllers
         // PUT: api/Works/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWork(int id, Work work)
+        public async Task<IActionResult> PutWork(int id, Compagny compagny)
         {
-            if (id != work.Id)
+            if (id != compagny.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(work).State = EntityState.Modified;
+            _context.Entry(compagny).State = EntityState.Modified;
 
             try
             {
@@ -83,34 +83,36 @@ namespace WaXercise.Controllers
 
         // POST: api/Works
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Work>> PostWork(Work work)
+        [HttpPost("{id}")]
+        public async Task<ActionResult<Compagny>> PostWork(int id, Compagny compagny)
         {
-          if (_context.Work == null)
+          if (_context.Compagny == null)
           {
               return Problem("Entity set 'WaXerciseContext.Work'  is null.");
           }
-            _context.Work.Add(work);
+            compagny.PeopleId = id;
+
+            _context.Compagny.Add(compagny);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWork", new { id = work.Id }, work);
+            return CreatedAtAction("GetWork", new { id = compagny.Id }, compagny);
         }
 
         // DELETE: api/Works/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWork(int id)
         {
-            if (_context.Work == null)
+            if (_context.Compagny == null)
             {
                 return NotFound();
             }
-            var work = await _context.Work.FindAsync(id);
+            var work = await _context.Compagny.FindAsync(id);
             if (work == null)
             {
                 return NotFound();
             }
 
-            _context.Work.Remove(work);
+            _context.Compagny.Remove(work);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -118,7 +120,7 @@ namespace WaXercise.Controllers
 
         private bool WorkExists(int id)
         {
-            return (_context.Work?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Compagny?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

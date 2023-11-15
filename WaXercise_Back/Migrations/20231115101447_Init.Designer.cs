@@ -12,7 +12,7 @@ using WaXercise.Data;
 namespace WaXercise.Migrations
 {
     [DbContext(typeof(WaXerciseContext))]
-    [Migration("20231115084859_Init")]
+    [Migration("20231115101447_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -44,9 +44,6 @@ namespace WaXercise.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WorkId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("People");
@@ -64,9 +61,26 @@ namespace WaXercise.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PeopleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("PeopleId");
+
                     b.ToTable("Work");
+                });
+
+            modelBuilder.Entity("WaXercise.Models.Work", b =>
+                {
+                    b.HasOne("WaXercise.Models.People", null)
+                        .WithMany("Works")
+                        .HasForeignKey("PeopleId");
+                });
+
+            modelBuilder.Entity("WaXercise.Models.People", b =>
+                {
+                    b.Navigation("Works");
                 });
 #pragma warning restore 612, 618
         }

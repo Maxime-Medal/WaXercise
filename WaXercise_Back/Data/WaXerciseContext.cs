@@ -16,6 +16,8 @@ namespace WaXercise.Data
 
         public DbSet<WaXercise.Models.People> People { get; set; } = default!;
 
-        public DbSet<WaXercise.Models.Work> Work { get; set; } = default!;
+        public DbSet<WaXercise.Models.Compagny> Compagny { get; set; } = default!;
+
+        public DbSet<WaXercise.Models.JobPeriod> JobPeriod { get; set; } = default!;
     }
 }
