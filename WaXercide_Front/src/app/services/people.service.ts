@@ -34,7 +34,7 @@ export class PeopleService {
       );
   }
 
-  public sendSalarie(people: People): Observable<People> {
+  public sendPeople(people: People): Observable<People> {
     return this._http.post<People>(this.peopleUrl, people);
   }
 

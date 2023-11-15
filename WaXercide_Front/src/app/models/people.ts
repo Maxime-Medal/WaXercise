@@ -1,7 +1,7 @@
 import { Compagny } from "./compagny";
 
 export interface People {
-    id: number;
+    id?: number;
     firstName: string;
     lastName: string;
     birthDate: Date | string;

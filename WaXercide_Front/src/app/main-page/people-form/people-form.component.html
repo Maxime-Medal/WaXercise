@@ -1,1 +1,14 @@
-<p>people-form works!</p>
+<div class="container">
+
+    <form class="form" [formGroup]="peopleForm">
+        <label for="lastName">Nom:</label>
+        <input formControlName="lastName">
+        <label for="firsName">Prénom:</label>
+        <input formControlName="firstName">
+        <label for="birthDate">Date de naissance:</label>
+        <input type="date" formControlName="birthDate">
+    </form>
+
+    <button class="button" mat-button color="primary" (click)="onSubmit()"
+        [disabled]="!peopleForm.valid">Submit</button>
+</div>

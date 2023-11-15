@@ -1,6 +1,13 @@
-<p>display-people works!</p>
 <ul *ngFor="let p of peoples">
-    <li>
-        Prénom: {{p.firstName}}
-    </li>
+    <h2>Identité:</h2>
+    <li>Prénom: {{p.firstName}}</li>
+    <li>Nom: {{p.lastName}}</li>
+    <li>Age: {{p.Age}}</li>
+    <h3>Société:</h3>
+    <div *ngFor="let c of p.compagnies">
+        <div>{{c.label}}</div>
+        <div></div>
+    </div>
+    <li></li>
+    <li></li>
 </ul>
