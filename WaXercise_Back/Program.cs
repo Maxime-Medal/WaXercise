@@ -1,6 +1,14 @@
-﻿var allowSpecificOrigins = "allowSpecificOrigins";
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using WaXercise.Data;
+using WaXercise.Services;
+using WaXercise.Services.Interfaces;
+
+var allowSpecificOrigins = "allowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<WaXerciseContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("WaXerciseContext") ?? throw new InvalidOperationException("Connection string 'WaXerciseContext' not found.")));
 
 // TODO ajout du context de base de données
 //builder.Services.AddDbContext<BoilerPlateContext>(options =>
@@ -31,6 +39,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IPeopleService, PeopleService>();
 
 var app = builder.Build();
 
