@@ -14,4 +14,4 @@ Problème d'enregistrement des éléments via les jointures
 J'ai eu la bonne idée de mettre angular 17 hier. Ce qui crée par deffaut une appli avec les composants standalone à true.
 du coup problème d'injection de service... j'ai recrée un appli
 
-** Test from home
+** Test from home -2
